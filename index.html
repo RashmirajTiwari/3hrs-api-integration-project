@@ -1,14 +1,28 @@
+
 <!DOCTYPE html>
 <html>
-    <body> 
-        <div class="container" >
-            <form id="myForm">
-          
-            
-              <label for="itemName">Item Name</label>
-              <input type="text"  name="itemName" id="itemName" >
-          
-              <label for="Category">Category</label>
+
+<head>
+    <title>
+        Inventory Management System
+    </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<h2><center>Inventory Management System</center></h2>
+
+<hr>
+<div class="item-form">
+    <form id="myForm">
+        <div>
+            <label for="itemName">Item Name</label>
+            <input type="text"  name="itemName" id="itemName" >
+        
+        </div>
+        <div>
+            <label for="Category">Category</label>
               <select id="category">
                 <option > </option>
                 <option >food</option>
@@ -16,113 +30,27 @@
                 <option >movie</option>
                 <option >clothes</option>
               </select>
-              <label for="price">Price</label>
-              <input type="text"  name="price" id="price" >
-              <label for="quantity">Quantity</label>
-              <input type="text"  name="quantity" id="quantity" >
-
-              
-                <input type="submit"  value="Add Item">
-          
-            </form>
-          </div>
-
-          <div class="container">
+        </div>
+        <div>
+            <label for="price">Price</label>
+            <input type="text"  name="price" id="price" >
+        </div>
+        <div>
+            <label for="quantity">Quantity</label>
+            <input type="text"  name="quantity" id="quantity" >
+        </div>
+        <div  class="form-action-buttons">
+            <input type="submit" value="Add">
+        </div>
+    </form>
+</div>
+<br/>
+<div class = "item-table">
+    
             <ul id="items"></ul>
-          </div>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-          <script>
-            var form=document.getElementById('myForm');
-            var list=document.getElementById('items');
-            var itemName=document.getElementById('itemName');
-            var category=document.getElementById('category');
-            var price=document.getElementById('price');
-            var quantity=document.getElementById('quantity');
-            
-            var form=document.getElementById('myForm');
-            var list=document.getElementById('items');
-
-    window.addEventListener("DOMContentLoaded", async () => {
-    try {
-        let res = await axios.get("https://crudcrud.com/api/9978f9ee1ebb4da195b109d819b959c3/itemData")
-
-        for (let i = 0; i < res.data.length; i++) {
-            list.innerHTML += `<li class="lists"><span class="id-token" style="display:none">${res.data[i]._id}</span> <span>${res.data[i].ItemName}</span> <span>${res.data[i].Category}</span> <span>${res.data[i].Price+" "}</span><span>${res.data[i].Quantity+" "}</span><button class="Buy">Buy</button></li>`
         
-        }
-
-
-    } catch (error) {
-        console.log(error)
-
-    }
-
-})
-    
-    //Add items
-    form.addEventListener("submit", async (e) => {
-    e.preventDefault()
-    try {
-
-        let itemObj={
-                    "ItemName":itemName.value,
-                    "Category":category.value,
-                    "Price":price.value,
-                    "Quantity":quantity.value,
-                    
-        }
-        const data  = await axios.post("https://crudcrud.com/api/9978f9ee1ebb4da195b109d819b959c3/itemData",itemObj)
-        
-        console.log(data)
-
-        
-        list.innerHTML += `<li class="lists"><span class="id-token" style="display:none">${data._id}</span> <span style="display:none">${data.ItemName+" "}</span> <span>${data.Category+" "}</span> <span>${data.Price+" "}</span><span>${data.Quantity+" "}</span><button class="Buy">Buy</button></li>`
-
-        itemName.value = "";
-        category.value="";
-        price.value="";
-        quantity.value="";
-    } catch (error) {
-        console.log(error)
-
-    }
-
-})
-
-                
-            
-        
-list.addEventListener('click', async (e) => {
-    try {
-        if (e.target.classList.contains("Buy")) {
-            
-            console.log("true");
-                const li = e.target.parentElement;
-                var id=li.children[0].innerText;
-                var quantity=li.children[4].textContent-1
-                li.children[4].textContent=quantity;
-                let itemObj={
-                    "ItemName":li.children[1].innerText,
-                    "Category":li.children[2].innerText,
-                    "Price":li.children[3].innerText,
-                    "Quantity":quantity
-                    
-        }
-                
-        const data=axios.put(`https://crudcrud.com/api/9978f9ee1ebb4da195b109d819b959c3/itemData/${id}`,itemObj)
-        //console.log("successfully updated...");
-        console.log("successfully updated..."+data);
-                
-            
-        }
-
-    } catch (err) {
-        console.log(err)
-
-    }
-})
-    
-
-            </script>
-    </body>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="script.js"></script>
+</body>
 </html>
